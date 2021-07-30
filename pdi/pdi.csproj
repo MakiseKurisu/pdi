@@ -11,8 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Client\pdi.Client.csproj" />
-    <ProjectReference Include="..\Shared\pdi.Shared.csproj" />
+    <ProjectReference Include="..\pdi.Blazor\pdi.Blazor.csproj" />
+    <ProjectReference Include="..\pdi.Shared\pdi.Shared.csproj" />
   </ItemGroup>
 
 

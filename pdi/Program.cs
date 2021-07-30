@@ -7,7 +7,7 @@ using System.CommandLine.Invocation;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace pdi.Server
+namespace pdi
 {
     public class Program
     {

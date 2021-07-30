@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31410.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pdi.Server", "Server\pdi.Server.csproj", "{D58F0909-B4BC-4021-A01C-0E344F154174}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pdi", "pdi\pdi.csproj", "{D58F0909-B4BC-4021-A01C-0E344F154174}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pdi.Client", "Client\pdi.Client.csproj", "{585E4E87-CC57-4164-BCED-B305B1A081D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pdi.Blazor", "pdi.Blazor\pdi.Blazor.csproj", "{585E4E87-CC57-4164-BCED-B305B1A081D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pdi.Shared", "Shared\pdi.Shared.csproj", "{7A052A0A-8E6B-4EA7-960E-DC58A230D2AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pdi.Shared", "pdi.Shared\pdi.Shared.csproj", "{7A052A0A-8E6B-4EA7-960E-DC58A230D2AE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
