@@ -3,8 +3,9 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace pdi.Asset
+namespace pdi.Assets
 {
     public partial class Host : IDisposable
     {
@@ -40,7 +41,6 @@ namespace pdi.Asset
                 Disposed = true;
             }
         }
-
 
         public void Connect()
         {

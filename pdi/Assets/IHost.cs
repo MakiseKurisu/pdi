@@ -1,4 +1,4 @@
-﻿namespace pdi.Asset
+﻿namespace pdi.Assets
 {
     /// <summary>
     /// Define a physical host on the network that can be accessed via SSH

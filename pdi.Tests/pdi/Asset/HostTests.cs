@@ -4,7 +4,7 @@ using System;
 
 using Xunit;
 
-namespace pdi.Asset.Tests
+namespace pdi.Assets.Tests
 {
     public class HostTests
     {
