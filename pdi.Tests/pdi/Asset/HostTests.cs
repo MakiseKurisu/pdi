@@ -18,6 +18,7 @@ namespace pdi.Asset.Tests
             Assert.Null(i.UserName);
             Assert.Null(i.Password);
             Assert.Null(i.PrivateKey);
+            Assert.Null(i.PrivateKeyPassword);
         }
     }
 }
