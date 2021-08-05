@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
+using pdi.Web;
+
 using System;
 using System.CommandLine;
 using System.CommandLine.Invocation;

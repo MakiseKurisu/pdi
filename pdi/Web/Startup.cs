@@ -8,7 +8,7 @@ using Microsoft.Extensions.Hosting;
 
 using System.Linq;
 
-namespace pdi
+namespace pdi.Web
 {
     public class Startup
     {
