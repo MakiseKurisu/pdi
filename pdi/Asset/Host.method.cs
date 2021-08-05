@@ -34,7 +34,7 @@ namespace pdi.Asset
             {
                 if (disposing)
                 {
-                    Ssh.Dispose();
+                    Ssh?.Dispose();
                 }
 
                 Disposed = true;
