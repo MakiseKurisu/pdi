@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 
+using System;
+
 using Xunit;
 
 namespace pdi.Asset.Tests
@@ -17,6 +19,26 @@ namespace pdi.Asset.Tests
             Assert.Null(i.Password);
             Assert.Null(i.PrivateKey);
             Assert.Null(i.PrivateKeyPassword);
+        }
+
+        [Fact]
+        public void ConnectExceptionTest()
+        {
+            var i = new Host();
+            Assert.Throws<ArgumentNullException>(nameof(Host.Address), () => i.Connect());
+
+            i = new Host()
+            {
+                Address = ""
+            };
+            Assert.Throws<ArgumentNullException>(nameof(Host.UserName), () => i.Connect());
+
+            i = new Host()
+            {
+                Address = "",
+                UserName = ""
+            };
+            Assert.Throws<ArgumentNullException>(nameof(Host.PrivateKey), () => i.Connect());
         }
 
         [Fact]
