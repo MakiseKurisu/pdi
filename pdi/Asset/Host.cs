@@ -2,13 +2,13 @@
 {
     public partial class Host : IHost
     {
-        public string Name { get; set; }
-        public string Address { get; set; }
-        public int Port { get; set; }
+        public string Name { get; init; }
+        public string Address { get; init; }
+        public int Port { get; init; }
 
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public string PrivateKey { get; set; }
-        public string PrivateKeyPassword { get; set; }
+        public string UserName { get; init; }
+        public string Password { get; init; }
+        public string PrivateKey { get; init; }
+        public string PrivateKeyPassword { get; init; }
     }
 }
