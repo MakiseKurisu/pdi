@@ -39,7 +39,7 @@ namespace pdi.Extensions
                 }
             }, state);
 
-            RegisteredWaitHandle wait = null;
+            RegisteredWaitHandle? wait = null;
             try
             {
                 wait = ThreadPool.RegisterWaitForSingleObject(handle, (state, timeout) =>

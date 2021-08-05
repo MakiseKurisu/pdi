@@ -12,39 +12,20 @@ namespace pdi.Assets.Tests
         public void HostTest()
         {
             var i = new Host();
-            Assert.Null(i.Name);
-            Assert.Null(i.Address);
+            Assert.Equal(string.Empty, i.Name);
+            Assert.Equal(string.Empty, i.Address);
             Assert.Equal(22, i.Port);
-            Assert.Null(i.UserName);
-            Assert.Null(i.Password);
-            Assert.Null(i.PrivateKey);
-            Assert.Null(i.PrivateKeyPassword);
+            Assert.Equal(string.Empty, i.UserName);
+            Assert.Equal(string.Empty, i.Password);
+            Assert.Equal(string.Empty, i.PrivateKey);
+            Assert.Equal(string.Empty, i.PrivateKeyPassword);
         }
 
         [Fact]
         public void ConnectExceptionTest()
         {
-            using (var i = new Host())
-            {
-                Assert.Throws<ArgumentNullException>(nameof(Host.Address), () => i.Connect());
-            }
-
-            using (var i = new Host()
-            {
-                Address = ""
-            })
-            {
-                Assert.Throws<ArgumentNullException>(nameof(Host.UserName), () => i.Connect());
-            }
-
-            using (var i = new Host()
-            {
-                Address = "",
-                UserName = ""
-            })
-            {
-                Assert.Throws<ArgumentNullException>(nameof(Host.PrivateKey), () => i.Connect());
-            }
+            using var i = new Host();
+            Assert.Throws<InvalidOperationException>(() => i.Connect());
         }
 
         [Fact]

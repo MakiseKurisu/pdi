@@ -13,11 +13,17 @@ namespace pdi.Assets
     {
         private bool Disposed { get; set; }
 
-        private SshClient Ssh { get; set; }
+        private SshClient? Ssh { get; set; }
 
         public Host()
         {
+            Name = string.Empty;
+            Address = string.Empty;
             Port = 22;
+            UserName = string.Empty;
+            Password = string.Empty;
+            PrivateKey = string.Empty;
+            PrivateKeyPassword = string.Empty;
         }
 
         ~Host()
@@ -46,27 +52,24 @@ namespace pdi.Assets
 
         public void Connect()
         {
-            _ = Address ?? throw new ArgumentNullException(nameof(Address));
-            _ = UserName ?? throw new ArgumentNullException(nameof(UserName));
-
             if (Ssh?.IsConnected ?? false)
             {
                 return;
             }
 
             ConnectionInfo connInfo;
-            if (PrivateKey is not null)
+            if (PrivateKey != string.Empty)
             {
                 using var p = new MemoryStream(Encoding.UTF8.GetBytes(PrivateKey));
                 connInfo = new PrivateKeyConnectionInfo(Address, Port, UserName, new PrivateKeyFile(p, PrivateKeyPassword));
             }
-            else if (Password is not null)
+            else if (Password != string.Empty)
             {
                 connInfo = new PasswordConnectionInfo(Address, Port, UserName, Password);
             }
             else
             {
-                throw new ArgumentNullException(nameof(PrivateKey));
+                throw new InvalidOperationException($"Need to define either {nameof(PrivateKey)} or {nameof(Password)} for SSH authentication.");
             }
 
             Ssh = new SshClient(connInfo);
@@ -75,7 +78,7 @@ namespace pdi.Assets
 
         public void Disconnect()
         {
-            if (Ssh?.IsConnected ?? false)
+            if (Ssh is null || !Ssh.IsConnected)
             {
                 return;
             }
@@ -85,6 +88,11 @@ namespace pdi.Assets
 
         public async Task<(int ExitStatus, string Result, string Error)> Execute(string commandText)
         {
+            if (Ssh is null || !Ssh.IsConnected)
+            {
+                throw new InvalidOperationException($"Host {Name} is not connected.");
+            }
+
             using var c = Ssh.CreateCommand(commandText);
             if (await c.BeginExecute())
             {
@@ -92,7 +100,7 @@ namespace pdi.Assets
             }
             else
             {
-                throw new TimeoutException($"Execution of `commandText` has been timed out.");
+                throw new TimeoutException($"Execution of `{commandText}` has been timed out.");
             }
         }
     }
