@@ -8,7 +8,7 @@ namespace pdi.Asset
 {
     public partial class Host
     {
-        Host()
+        public Host()
         {
             Port = 22;
         }

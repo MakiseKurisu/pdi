@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pdi.Blazor", "pdi.Blazor\pd
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pdi.Shared", "pdi.Shared\pdi.Shared.csproj", "{7A052A0A-8E6B-4EA7-960E-DC58A230D2AE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pdi.Tests", "pdi.Tests\pdi.Tests.csproj", "{4448C4AC-B0BF-4330-8513-6E6DA0CF3EAF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{7A052A0A-8E6B-4EA7-960E-DC58A230D2AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A052A0A-8E6B-4EA7-960E-DC58A230D2AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A052A0A-8E6B-4EA7-960E-DC58A230D2AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4448C4AC-B0BF-4330-8513-6E6DA0CF3EAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4448C4AC-B0BF-4330-8513-6E6DA0CF3EAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4448C4AC-B0BF-4330-8513-6E6DA0CF3EAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4448C4AC-B0BF-4330-8513-6E6DA0CF3EAF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
