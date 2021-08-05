@@ -20,5 +20,8 @@
 
         // Management user SSH private key
         public string PrivateKey { get; set; }
+
+        // Management user SSH private key's password
+        public string PrivateKeyPassword { get; set; }
     }
 }

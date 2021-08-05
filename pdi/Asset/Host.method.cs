@@ -22,7 +22,7 @@ namespace pdi.Asset
             if (PrivateKey is not null)
             {
                 using var p = new MemoryStream(Encoding.UTF8.GetBytes(PrivateKey));
-                connInfo = new PrivateKeyConnectionInfo(Address, Port, UserName, new PrivateKeyFile(p));
+                connInfo = new PrivateKeyConnectionInfo(Address, Port, UserName, new PrivateKeyFile(p, PrivateKeyPassword));
             }
             else if (Password is not null)
             {
