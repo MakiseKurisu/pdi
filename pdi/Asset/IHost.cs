@@ -1,27 +1,43 @@
 ﻿namespace pdi.Asset
 {
-    // Define a physical host on the network that can be accessed via SSH
+    /// <summary>
+    /// Define a physical host on the network that can be accessed via SSH
+    /// </summary>
     interface IHost
     {
-        // Name of the host
+        /// <summary>
+        /// Name of the host
+        /// </summary>
         public string Name { get; set; }
-        
-        // IP / DNS name of the host
+
+        /// <summary>
+        /// IP / DNS name of the host
+        /// </summary>
         public string Address { get; set; }
 
-        // Port for SSH
+        /// <summary>
+        /// Port for SSH
+        /// </summary>
         public int Port { get; set; }
 
-        // Management user name
+        /// <summary>
+        /// Management user name
+        /// </summary>
         public string UserName { get; set; }
 
-        // Management user password
+        /// <summary>
+        /// Management user password
+        /// </summary>
         public string Password { get; set; }
 
-        // Management user SSH private key
+        /// <summary>
+        /// Management user SSH private key
+        /// </summary>
         public string PrivateKey { get; set; }
 
-        // Management user SSH private key's password
+        /// <summary>
+        /// Management user SSH private key's password
+        /// </summary>
         public string PrivateKeyPassword { get; set; }
     }
 }
