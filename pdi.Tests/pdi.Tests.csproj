@@ -4,10 +4,13 @@
     <TargetFramework>.NETCoreApp,Version=v5.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <UserSecretsId>4cfca2ca-e656-47da-b82d-a44e4aa3f8dd</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="bunit" Version="1.1.5" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="5.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.10.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.2.5" />
     <PackageReference Include="MSTest.TestFramework" Version="2.2.5" />
