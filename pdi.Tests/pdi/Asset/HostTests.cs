@@ -24,21 +24,27 @@ namespace pdi.Asset.Tests
         [Fact]
         public void ConnectExceptionTest()
         {
-            var i = new Host();
-            Assert.Throws<ArgumentNullException>(nameof(Host.Address), () => i.Connect());
+            using (var i = new Host())
+            {
+                Assert.Throws<ArgumentNullException>(nameof(Host.Address), () => i.Connect());
+            }
 
-            i = new Host()
+            using (var i = new Host()
             {
                 Address = ""
-            };
-            Assert.Throws<ArgumentNullException>(nameof(Host.UserName), () => i.Connect());
+            })
+            {
+                Assert.Throws<ArgumentNullException>(nameof(Host.UserName), () => i.Connect());
+            }
 
-            i = new Host()
+            using (var i = new Host()
             {
                 Address = "",
                 UserName = ""
-            };
-            Assert.Throws<ArgumentNullException>(nameof(Host.PrivateKey), () => i.Connect());
+            })
+            {
+                Assert.Throws<ArgumentNullException>(nameof(Host.PrivateKey), () => i.Connect());
+            }
         }
 
         [Fact]
