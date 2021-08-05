@@ -1,4 +1,6 @@
-﻿using Renci.SshNet;
+﻿using pdi.Extensions;
+
+using Renci.SshNet;
 
 using System;
 using System.IO;
@@ -79,6 +81,19 @@ namespace pdi.Assets
             }
 
             Ssh.Disconnect();
+        }
+
+        public async Task<(int ExitStatus, string Result, string Error)> Execute(string commandText)
+        {
+            using var c = Ssh.CreateCommand(commandText);
+            if (await c.BeginExecute())
+            {
+                return (c.ExitStatus, c.Result, c.Error);
+            }
+            else
+            {
+                throw new TimeoutException($"Execution of `commandText` has been timed out.");
+            }
         }
     }
 }
