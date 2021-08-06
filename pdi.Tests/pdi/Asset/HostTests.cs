@@ -62,5 +62,34 @@ namespace pdi.Assets.Tests
             i.Connect();
             i.Disconnect();
         }
+
+        [Theory]
+        [InlineData("echo 0", 0, "0\n", "")]
+        [InlineData("echo 0 > /test", 1, "", "bash: /test: Permission denied\n")]
+        public async void ExecuteTest(string commandText, int? expectedExitStatus, string? expectedResult, string? expectedError)
+        {
+            var secrets = new ConfigurationBuilder().AddUserSecrets<HostTests>().Build();
+
+            using var i = new Host()
+            {
+                Address = secrets["SSH_ADDRESS"],
+                Port = Convert.ToInt32(secrets["SSH_PORT"]),
+                UserName = secrets["SSH_USERNAME"],
+                Password = secrets["SSH_PASSWORD"]
+            };
+
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => await i.Execute(commandText));
+
+            i.Connect();
+
+            (var ExitStatus, var Result, var Error) = await i.Execute(commandText);
+            Assert.Equal(expectedExitStatus ?? ExitStatus, ExitStatus);
+            Assert.Equal(expectedResult ?? Result, Result);
+            Assert.Equal(expectedError ?? Error, Error);
+
+            i.Disconnect();
+
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => await i.Execute(commandText));
+        }
     }
 }
