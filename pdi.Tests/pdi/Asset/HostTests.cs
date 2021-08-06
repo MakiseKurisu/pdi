@@ -11,7 +11,7 @@ namespace pdi.Assets.Tests
         [Fact]
         public void HostTest()
         {
-            var i = new Host();
+            using var i = new Host();
             Assert.Equal(string.Empty, i.Name);
             Assert.Equal(string.Empty, i.Address);
             Assert.Equal(22, i.Port);
@@ -33,7 +33,7 @@ namespace pdi.Assets.Tests
         {
             var secrets = new ConfigurationBuilder().AddUserSecrets<HostTests>().Build();
 
-            var i = new Host()
+            using var i = new Host()
             {
                 Address = secrets["SSH_ADDRESS"],
                 Port = Convert.ToInt32(secrets["SSH_PORT"]),
@@ -42,6 +42,7 @@ namespace pdi.Assets.Tests
             };
 
             i.Connect();
+            i.Disconnect();
         }
 
         [Fact(Skip = "Current private key is not supported in SSH.NET 2020.0.1. See https://github.com/sshnet/SSH.NET/pull/614")]
@@ -49,7 +50,7 @@ namespace pdi.Assets.Tests
         {
             var secrets = new ConfigurationBuilder().AddUserSecrets<HostTests>().Build();
 
-            var i = new Host()
+            using var i = new Host()
             {
                 Address = secrets["SSH_ADDRESS"],
                 Port = Convert.ToInt32(secrets["SSH_PORT"]),
@@ -59,6 +60,7 @@ namespace pdi.Assets.Tests
             };
 
             i.Connect();
+            i.Disconnect();
         }
     }
 }
