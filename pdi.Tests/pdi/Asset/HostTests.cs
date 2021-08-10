@@ -9,9 +9,9 @@ namespace pdi.Assets.Tests
     public class HostTests
     {
         [Fact]
-        public void HostTest()
+        public void SshHostRecordTest()
         {
-            using var i = new Host();
+            var i = new SshHostRecord();
             Assert.Equal(string.Empty, i.Name);
             Assert.Equal(string.Empty, i.Address);
             Assert.Equal(22, i.Port);
@@ -24,8 +24,9 @@ namespace pdi.Assets.Tests
         [Fact]
         public void ConnectExceptionTest()
         {
-            using var i = new Host();
-            Assert.Throws<InvalidOperationException>(() => i.Connect());
+            var i = new SshHostRecord();
+            using var s = new SshHost(i);
+            Assert.Throws<InvalidOperationException>(() => s.Connect());
         }
 
         [Fact]
@@ -33,7 +34,7 @@ namespace pdi.Assets.Tests
         {
             var secrets = new ConfigurationBuilder().AddUserSecrets<HostTests>().Build();
 
-            using var i = new Host()
+            var i = new SshHostRecord()
             {
                 Address = secrets["SSH_ADDRESS"],
                 Port = Convert.ToInt32(secrets["SSH_PORT"]),
@@ -41,8 +42,9 @@ namespace pdi.Assets.Tests
                 Password = secrets["SSH_PASSWORD"]
             };
 
-            i.Connect();
-            i.Disconnect();
+            using var s = new SshHost(i);
+            s.Connect();
+            s.Disconnect();
         }
 
         [Fact(Skip = "Current private key is not supported in SSH.NET 2020.0.1. See https://github.com/sshnet/SSH.NET/pull/614")]
@@ -50,7 +52,7 @@ namespace pdi.Assets.Tests
         {
             var secrets = new ConfigurationBuilder().AddUserSecrets<HostTests>().Build();
 
-            using var i = new Host()
+            var i = new SshHostRecord()
             {
                 Address = secrets["SSH_ADDRESS"],
                 Port = Convert.ToInt32(secrets["SSH_PORT"]),
@@ -59,8 +61,9 @@ namespace pdi.Assets.Tests
                 PrivateKeyPassword = secrets["SSH_PRIVATE_KEY_PASSWORD"]
             };
 
-            i.Connect();
-            i.Disconnect();
+            using var s = new SshHost(i);
+            s.Connect();
+            s.Disconnect();
         }
 
         [Theory]
@@ -70,7 +73,7 @@ namespace pdi.Assets.Tests
         {
             var secrets = new ConfigurationBuilder().AddUserSecrets<HostTests>().Build();
 
-            using var i = new Host()
+            var i = new SshHostRecord()
             {
                 Address = secrets["SSH_ADDRESS"],
                 Port = Convert.ToInt32(secrets["SSH_PORT"]),
@@ -78,18 +81,20 @@ namespace pdi.Assets.Tests
                 Password = secrets["SSH_PASSWORD"]
             };
 
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await i.Execute(commandText));
+            using var s = new SshHost(i);
 
-            i.Connect();
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => await s.Execute(commandText));
 
-            (var ExitStatus, var Result, var Error) = await i.Execute(commandText);
+            s.Connect();
+
+            (var ExitStatus, var Result, var Error) = await s.Execute(commandText);
             Assert.Equal(expectedExitStatus ?? ExitStatus, ExitStatus);
             Assert.Equal(expectedResult ?? Result, Result);
             Assert.Equal(expectedError ?? Error, Error);
 
-            i.Disconnect();
+            s.Disconnect();
 
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await i.Execute(commandText));
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => await s.Execute(commandText));
         }
     }
 }

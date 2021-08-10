@@ -9,24 +9,19 @@ using System.Threading.Tasks;
 
 namespace pdi.Assets
 {
-    public partial class Host : IDisposable
+    public class SshHost : IDisposable, IHost
     {
+        public SshHostRecord Host { get; init; }
         private bool Disposed { get; set; }
 
         private SshClient? Ssh { get; set; }
 
-        public Host()
+        public SshHost(SshHostRecord Record)
         {
-            Name = string.Empty;
-            Address = string.Empty;
-            Port = 22;
-            UserName = string.Empty;
-            Password = string.Empty;
-            PrivateKey = string.Empty;
-            PrivateKeyPassword = string.Empty;
+            Host = Record;
         }
 
-        ~Host()
+        ~SshHost()
         {
             Dispose(false);
         }
@@ -58,18 +53,18 @@ namespace pdi.Assets
             }
 
             ConnectionInfo connInfo;
-            if (PrivateKey != string.Empty)
+            if (Host.PrivateKey != string.Empty)
             {
-                using var p = new MemoryStream(Encoding.UTF8.GetBytes(PrivateKey));
-                connInfo = new PrivateKeyConnectionInfo(Address, Port, UserName, new PrivateKeyFile(p, PrivateKeyPassword));
+                using var p = new MemoryStream(Encoding.UTF8.GetBytes(Host.PrivateKey));
+                connInfo = new PrivateKeyConnectionInfo(Host.Address, Host.Port, Host.UserName, new PrivateKeyFile(p, Host.PrivateKeyPassword));
             }
-            else if (Password != string.Empty)
+            else if (Host.Password != string.Empty)
             {
-                connInfo = new PasswordConnectionInfo(Address, Port, UserName, Password);
+                connInfo = new PasswordConnectionInfo(Host.Address, Host.Port, Host.UserName, Host.Password);
             }
             else
             {
-                throw new InvalidOperationException($"Need to define either {nameof(PrivateKey)} or {nameof(Password)} for SSH authentication.");
+                throw new InvalidOperationException($"Need to define either {nameof(Host.PrivateKey)} or {nameof(Host.Password)} for SSH authentication.");
             }
 
             Ssh = new SshClient(connInfo);
@@ -90,7 +85,7 @@ namespace pdi.Assets
         {
             if (Ssh is null || !Ssh.IsConnected)
             {
-                throw new InvalidOperationException($"Host {Name} is not connected.");
+                throw new InvalidOperationException($"Host {Host.Name} is not connected.");
             }
 
             using var c = Ssh.CreateCommand(commandText);
