@@ -6,21 +6,8 @@ using Xunit;
 
 namespace pdi.Assets.Tests
 {
-    public class HostTests
+    public class SshHostTests
     {
-        [Fact]
-        public void SshHostRecordTest()
-        {
-            var i = new SshHostRecord();
-            Assert.Equal(string.Empty, i.Name);
-            Assert.Equal(string.Empty, i.Address);
-            Assert.Equal(22, i.Port);
-            Assert.Equal(string.Empty, i.UserName);
-            Assert.Equal(string.Empty, i.Password);
-            Assert.Equal(string.Empty, i.PrivateKey);
-            Assert.Equal(string.Empty, i.PrivateKeyPassword);
-        }
-
         [Fact]
         public void ConnectExceptionTest()
         {
@@ -32,7 +19,7 @@ namespace pdi.Assets.Tests
         [Fact]
         public void ConnectPasswordTest()
         {
-            var secrets = new ConfigurationBuilder().AddUserSecrets<HostTests>().Build();
+            var secrets = new ConfigurationBuilder().AddUserSecrets<SshHostTests>().Build();
 
             var i = new SshHostRecord()
             {
@@ -50,7 +37,7 @@ namespace pdi.Assets.Tests
         [Fact(Skip = "Current private key is not supported in SSH.NET 2020.0.1. See https://github.com/sshnet/SSH.NET/pull/614")]
         public void ConnectPrivateKeyTest()
         {
-            var secrets = new ConfigurationBuilder().AddUserSecrets<HostTests>().Build();
+            var secrets = new ConfigurationBuilder().AddUserSecrets<SshHostTests>().Build();
 
             var i = new SshHostRecord()
             {
@@ -71,7 +58,7 @@ namespace pdi.Assets.Tests
         [InlineData("echo 0 > /test", 1, "", "bash: /test: Permission denied\n")]
         public async void ExecuteTest(string commandText, int? expectedExitStatus, string? expectedResult, string? expectedError)
         {
-            var secrets = new ConfigurationBuilder().AddUserSecrets<HostTests>().Build();
+            var secrets = new ConfigurationBuilder().AddUserSecrets<SshHostTests>().Build();
 
             var i = new SshHostRecord()
             {
