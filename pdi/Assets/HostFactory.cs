@@ -14,7 +14,7 @@ namespace pdi.Assets
 
     public class HostFactory
     {
-        public async Task<HOST_SHELL_TYPE> DetectShell(SshHost Host)
+        public async Task<HOST_SHELL_TYPE> DetectShell(IHost Host)
         {
             (var ExitStatus, var Result, _) = await Host.Execute("echo $?");
 
@@ -32,7 +32,7 @@ namespace pdi.Assets
             };
         }
 
-        public async Task<LinuxDistribution> DetectLinuxDistribution(SshHost Host)
+        public async Task<LinuxDistribution> DetectLinuxDistribution(IHost Host)
         {
             (var ExitStatus, var Result, _) = await Host.Execute("cat /etc/os-release");
 
