@@ -43,7 +43,7 @@ namespace pdi.Assets.Tests
 
             using var s = new SshHost(i);
             var f = new HostFactory();
-            Assert.True((await f.DetectLinuxDistribution(s)).IsDebian());
+            Assert.True((await f.DetectLinuxDistribution(s)).IsOrLikeDebian());
         }
     }
 }
