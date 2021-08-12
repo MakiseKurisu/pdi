@@ -12,8 +12,10 @@ namespace pdi.Assets.Tests
         public void ConnectExceptionTest()
         {
             var i = new SshHostRecord();
-            using var s = new SshHost(i);
-            Assert.Throws<InvalidOperationException>(() => s.Connect());
+            Assert.Throws<InvalidOperationException>(() =>
+            {
+                using var s = new SshHost(i);
+            });
         }
 
         [Fact]
@@ -30,8 +32,6 @@ namespace pdi.Assets.Tests
             };
 
             using var s = new SshHost(i);
-            s.Connect();
-            s.Disconnect();
         }
 
         [Fact(Skip = "Current private key is not supported in SSH.NET 2020.0.1. See https://github.com/sshnet/SSH.NET/pull/614")]
@@ -49,8 +49,6 @@ namespace pdi.Assets.Tests
             };
 
             using var s = new SshHost(i);
-            s.Connect();
-            s.Disconnect();
         }
 
         [Theory]
@@ -70,18 +68,10 @@ namespace pdi.Assets.Tests
 
             using var s = new SshHost(i);
 
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await s.Execute(commandText));
-
-            s.Connect();
-
             (var ExitStatus, var Result, var Error) = await s.Execute(commandText);
             Assert.Equal(expectedExitStatus ?? ExitStatus, ExitStatus);
             Assert.Equal(expectedResult ?? Result, Result);
             Assert.Equal(expectedError ?? Error, Error);
-
-            s.Disconnect();
-
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await s.Execute(commandText));
         }
     }
 }

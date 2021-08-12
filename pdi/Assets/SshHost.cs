@@ -14,43 +14,11 @@ namespace pdi.Assets
         public SshHostRecord Host { get; init; }
         private bool Disposed { get; set; }
 
-        private SshClient? Ssh { get; set; }
+        private SshClient Ssh { get; set; }
 
         public SshHost(SshHostRecord Record)
         {
             Host = Record;
-        }
-
-        ~SshHost()
-        {
-            Dispose(false);
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!Disposed)
-            {
-                if (disposing)
-                {
-                    Ssh?.Dispose();
-                }
-
-                Disposed = true;
-            }
-        }
-
-        public void Connect()
-        {
-            if (Ssh?.IsConnected ?? false)
-            {
-                return;
-            }
 
             ConnectionInfo connInfo;
             if (Host.PrivateKey != string.Empty)
@@ -71,23 +39,33 @@ namespace pdi.Assets
             Ssh.Connect();
         }
 
-        public void Disconnect()
+        ~SshHost()
         {
-            if (Ssh is null || !Ssh.IsConnected)
-            {
-                return;
-            }
-
             Ssh.Disconnect();
+            Dispose(false);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!Disposed)
+            {
+                if (disposing)
+                {
+                    Ssh.Dispose();
+                }
+
+                Disposed = true;
+            }
         }
 
         public async Task<(int ExitStatus, string Result, string Error)> Execute(string commandText)
         {
-            if (Ssh is null || !Ssh.IsConnected)
-            {
-                throw new InvalidOperationException($"Host {Host.Name} is not connected.");
-            }
-
             using var c = Ssh.CreateCommand(commandText);
             if (await c.BeginExecute())
             {
