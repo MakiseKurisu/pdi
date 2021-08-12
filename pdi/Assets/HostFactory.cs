@@ -14,7 +14,7 @@ namespace pdi.Assets
 
     public class HostFactory
     {
-        public async Task<HOST_SHELL_TYPE> ShellDetection(SshHost Host)
+        public async Task<HOST_SHELL_TYPE> DetectShell(SshHost Host)
         {
             (var ExitStatus, var Result, _) = await Host.Execute("echo $?");
             

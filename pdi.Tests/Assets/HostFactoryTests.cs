@@ -9,7 +9,7 @@ namespace pdi.Assets.Tests
     public class HostFactoryTests
     {
         [Fact]
-        public async void ShellDetectionTest()
+        public async void DetectShellTest()
         {
             var secrets = new ConfigurationBuilder().AddUserSecrets<SshHostTests>().Build();
 
@@ -23,7 +23,7 @@ namespace pdi.Assets.Tests
 
             using var s = new SshHost(i);
             var f = new HostFactory();
-            Assert.Equal(HOST_SHELL_TYPE.SH, await f.ShellDetection(s));
+            Assert.Equal(HOST_SHELL_TYPE.SH, await f.DetectShell(s));
         }
     }
 }
