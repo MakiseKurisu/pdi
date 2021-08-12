@@ -45,5 +45,22 @@ namespace pdi.Assets.Tests
             var f = new HostFactory();
             Assert.True((await f.DetectLinuxDistribution(s)).IsOrLikeDebian());
         }
+
+        [Fact]
+        public async void CreateHostTest()
+        {
+            var secrets = new ConfigurationBuilder().AddUserSecrets<SshHostTests>().Build();
+
+            var i = new SshHostRecord()
+            {
+                Address = secrets["SSH_ADDRESS"],
+                Port = Convert.ToInt32(secrets["SSH_PORT"]),
+                UserName = secrets["SSH_USERNAME"],
+                Password = secrets["SSH_PASSWORD"]
+            };
+
+            var f = new HostFactory();
+            Assert.True(await f.CreateHost(i) is SshHost);
+        }
     }
 }

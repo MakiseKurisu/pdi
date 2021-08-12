@@ -43,5 +43,27 @@ namespace pdi.Assets
 
             return new DistributionChecker(Result).GetDistribution();
         }
+
+        public async Task<bool> CheckPlatformSupport(IHost Host)
+        {
+            switch (await DetectShell(Host))
+            {
+                case HOST_SHELL_TYPE.SH:
+                    {
+                        var distro = await DetectLinuxDistribution(Host);
+                        return distro.IsOrLikeDebian();
+                    }
+                default:
+                    {
+                        throw new PlatformNotSupportedException("Unknown Shell.");
+                    }
+            }
+        }
+
+        public async Task<IHost> CreateHost(HostRecord Record)
+        {
+            var host = new SshHost(new SshHostRecord(Record));
+            return await CheckPlatformSupport(host) ? host : throw new PlatformNotSupportedException("Unknown Shell.");
+        }
     }
 }
